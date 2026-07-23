@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "default_currency": "GTQ",
+  "timezone": "America/Guatemala",
+  "cases": [
+    {
+      "input": "compra pollo 40",
+      "expected": {
+        "entry_type": "expense",
+        "amount": "40",
+        "merchant": "pollo"
+      }
+    },
+    {
+      "input": "salida comer mc 140.1",
+      "expected": {
+        "entry_type": "expense",
+        "amount": "140.1",
+        "merchant": "mc",
+        "category": "Dining"
+      }
+    },
+    {
+      "input": "gasto gas 321",
+      "expected": {
+        "entry_type": "expense",
+        "amount": "321",
+        "merchant": "gas",
+        "category": "Transport"
+      }
+    },
+    {
+      "input": "prestamo ricardo 3400",
+      "expected": {
+        "entry_type": "loan",
+        "amount": "3400",
+        "person": "Ricardo"
+      }
+    },
+    {
+      "input": "compre algo",
+      "expected_behavior": "ask_for_amount_without_creating_a_draft"
+    },
+    {
+      "input": "compra uno 20 y compra dos 30",
+      "expected_behavior": "ask_user_to_split_multiple_movements"
+    }
+  ]
+}

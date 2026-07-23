@@ -1,0 +1,4 @@
+interface:
+  display_name: "Expense Ledger"
+  short_description: "Track expenses, refunds, and receivables"
+  default_prompt: "Use $manage-expenses to record and review personal expenses from natural-language messages."

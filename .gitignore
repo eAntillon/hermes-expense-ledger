@@ -1,0 +1,12 @@
+.env
+!.env.example
+.gradle/
+.idea/
+build/
+data/
+logs/
+backups/
+*.db
+*.db-shm
+*.db-wal
+*.iml
