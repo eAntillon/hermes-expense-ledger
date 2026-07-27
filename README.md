@@ -4,7 +4,7 @@ A private-by-default personal expense ledger for Hermes Agent. It accepts natura
 
 ## Status
 
-The initial implementation is complete and tested locally. Live Hermes activation, Tailscale installation, and public GitHub publication remain operator-controlled because they require Discord IDs or external credentials.
+The minimum viable implementation is complete and tested. Deployment stays private by default; each operator supplies local Discord IDs, credentials, and network policy without committing them.
 
 ## Design guarantees
 

@@ -22,13 +22,13 @@ The installer performs four scoped changes:
 3. Binds that skill to the configured Discord channel and selects the configured Codex model and reasoning effort.
 4. Registers the Java process as a STDIO MCP server and runs Hermes tool discovery.
 
-Use `scripts/install-hermes.sh --replace-mcp` only when replacing an existing MCP entry with the same name.
+The installer is non-interactive and safe to rerun. Use `scripts/install-hermes.sh --replace-mcp` to remove a stale MCP entry before registering it again.
 
 ## Discord behavior
 
 The skill requires a draft preview and a later explicit confirmation. Hermes supplies the channel and triggering message IDs; Java rejects any write from another channel. The owner allowlist remains enforced by the existing Hermes gateway.
 
-If the bot should respond without a mention in the expense channel, add the channel ID to `platforms.discord.free_response_channels` through the existing Hermes configuration. Preserve any channels already present.
+The Java configurator adds the expense channel to `platforms.discord.free_response_channels` while preserving existing channels, so expense messages do not require a bot mention.
 
 ## Verification
 

@@ -4,6 +4,7 @@ After=network.target
 
 [Service]
 Type=simple
+Environment="JAVA_HOME=__JAVA_HOME__"
 WorkingDirectory=__PROJECT_DIR__
 ExecStart=__PROJECT_DIR__/scripts/run-with-env.sh serve
 Restart=on-failure
@@ -11,10 +12,6 @@ RestartSec=5
 NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=strict
-ProtectControlGroups=true
-ProtectKernelLogs=true
-ProtectKernelModules=true
-ProtectKernelTunables=true
 RestrictSUIDSGID=true
 RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
 UMask=0077

@@ -41,6 +41,13 @@ if [[ "${EXPENSE_DISCORD_ALLOWED_USER_IDS}" == "000000000000000000" ]]; then
     exit 1
 fi
 
+java_bin="$(command -v java || true)"
+if [[ -z "${java_bin}" ]]; then
+    printf 'Java is not available in PATH. Install Java 22 before installation.\n' >&2
+    exit 1
+fi
+java_home="$(dirname -- "$(dirname -- "$(readlink -f -- "${java_bin}")")")"
+
 "${project_dir}/gradlew" clean check installDist
 
 mkdir -p "${skill_root}"
@@ -51,16 +58,15 @@ fi
 ln -sfn "${skill_source}" "${skill_target}"
 
 hermes config set model.default "${EXPENSE_HERMES_MODEL}"
-hermes config set agent.reasoning_effort "${EXPENSE_HERMES_REASONING_EFFORT}"
-binding="[{\"id\":\"${EXPENSE_DISCORD_CHANNEL_ID}\",\"skills\":[\"manage-expenses\"]}]"
-hermes config set --force platforms.discord.channel_skill_bindings "${binding}"
+hermes config set --force agent.reasoning_effort "${EXPENSE_HERMES_REASONING_EFFORT}"
+"${project_dir}/scripts/configure-hermes.sh"
 
 if [[ "${replace_mcp}" == true ]]; then
-    hermes mcp remove "${mcp_name}" || true
+    printf '\n' | hermes mcp remove "${mcp_name}" || true
 fi
 
 launcher="${project_dir}/build/install/hermes-expense-ledger/bin/hermes-expense-ledger"
-hermes mcp add "${mcp_name}" \
+printf 'y\n\n' | hermes mcp add "${mcp_name}" \
     --command "${launcher}" \
     --connect-timeout 20 \
     --env \
@@ -70,7 +76,14 @@ hermes mcp add "${mcp_name}" \
         "EXPENSE_DB_PATH=${EXPENSE_DB_PATH}" \
         "EXPENSE_BACKUP_DIR=${EXPENSE_BACKUP_DIR}" \
         "EXPENSE_LOG_DIR=${EXPENSE_LOG_DIR}" \
+        "JAVA_HOME=${java_home}" \
     --args mcp
+
+if ! configured_launcher="$(hermes config get "mcp_servers.${mcp_name}.command" 2>/dev/null)" \
+        || [[ "${configured_launcher}" != "${launcher}" ]]; then
+    printf 'Hermes did not persist the expected MCP command.\n' >&2
+    exit 1
+fi
 
 hermes mcp test "${mcp_name}"
 

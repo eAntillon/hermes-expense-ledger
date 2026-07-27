@@ -24,6 +24,7 @@ dependencies {
     implementation("org.xerial:sqlite-jdbc:3.53.2.1")
     implementation("org.slf4j:slf4j-api:2.0.18")
     implementation("ch.qos.logback:logback-classic:1.6.0")
+    implementation("org.snakeyaml:snakeyaml-engine:2.10")
 
     testImplementation("org.junit.jupiter:junit-jupiter:6.1.2")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher:6.1.2")

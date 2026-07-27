@@ -10,7 +10,7 @@ build/install/hermes-expense-ledger/bin/hermes-expense-ledger generate-token
 scripts/install-dashboard.sh
 ```
 
-The dashboard listens on `http://127.0.0.1:8787` by default. The systemd service uses a restrictive umask, restarts on failures, and runs without elevated privileges.
+The dashboard listens on `http://127.0.0.1:8787` by default. The installer records the detected Java home in the systemd unit, applies a restrictive umask, restarts on failures, and runs without elevated privileges.
 
 ## Tailscale
 
@@ -21,7 +21,7 @@ tailscale serve --bg http://127.0.0.1:8787
 tailscale serve status
 ```
 
-Review the tailnet access policy before relying on the URL. Never bind the dashboard directly to a public interface.
+On first use, Tailscale may print an owner-approval URL. Enable Serve from that page, rerun the command, and keep Funnel disabled. Review the tailnet access policy before relying on the URL. Never bind the dashboard directly to a public interface.
 
 ## Logs
 
